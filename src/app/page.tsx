@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 
 import { ResumeUploader, AnalysisResponse } from "@/components/ResumeUploader";
 import { featureHighlights, workflow } from "@/database/landing";
@@ -12,6 +12,11 @@ export default function Home() {
   const [jobDescription, setJobDescription] = useState("");
   const [analysis, setAnalysis] = useState<AnalysisResponse | null>(null);
   const [formError, setFormError] = useState<string | null>(null);
+  const formSectionRef = useRef<HTMLDivElement | null>(null);
+
+  const scrollToForm = () => {
+    formSectionRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
 
   const scoreLabel = useMemo(() => {
     if (!analysis) {
@@ -38,13 +43,35 @@ export default function Home() {
             insights, rewrite suggestions, and project ideas that keep you ahead
             of automated screens
           </p>
+          <div className={styles.atsInfo}>
+            <div className={styles.atsCard}>
+              <h2>What&apos;s ATS?</h2>
+              <p>
+                ATS stands for Applicant Tracking System. It&apos;s the automated
+                gatekeeper that scans your resume for keywords, structure, and
+                accomplishments before a recruiter ever reads it.
+              </p>
+            </div>
+            <div className={styles.atsCard}>
+              <h2>Why it matters</h2>
+              <p>
+                A resume that aligns with ATS expectations rises to the top of the
+                list. Matching terminology, clean formatting, and role-specific
+                impact statements dramatically increase your chances of landing an
+                interview.
+              </p>
+            </div>
+          </div>
+          <button className={styles.getStartedButton} onClick={scrollToForm}>
+            Get Started
+          </button>
           {/* <div className={styles.heroActions}>
             <button className={styles.primaryButton}>
               Try sample scoring flow
             </button>
             <button className={styles.secondaryButton}>View roadmap</button>
           </div> */}
-          <div className={styles.heroGrid}>
+          <div className={styles.heroGrid} ref={formSectionRef}>
             <div className={styles.heroCopy}>
               <p className={styles.sectionHeading}>Upload preview</p>
               <h2 className={styles.heroCopyHeading}>
