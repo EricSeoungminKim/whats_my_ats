@@ -33,15 +33,11 @@ export default function Home() {
           <span className={styles.badge}>Mock Test your ATS score</span>
           <h1 className={styles.heroTitle}>
             Welcome to <br />
-            What&apos;s My ATS? <br />
-            <br />
-            Test your resume speak the same language as every company&apos;s
-            hiring stack
+            <span className={styles.titleGradient}>What&apos;s My ATS?</span>
           </h1>
           <p className={styles.heroParagraph}>
-            Upload your resume, point to a target job, and get laser-focused ATS
-            insights, rewrite suggestions, and project ideas that keep you ahead
-            of automated screens
+            Test whether your resume speaks the same language as every company&apos;s hiring stack.
+            Upload, target the role you want, and iterate until your ATS score shines.
           </p>
           <div className={styles.atsInfo}>
             <div className={styles.atsCard}>
@@ -75,7 +71,7 @@ export default function Home() {
             <div className={styles.heroCopy}>
               <p className={styles.sectionHeading}>Upload preview</p>
               <h2 className={styles.heroCopyHeading}>
-                One place to compare resumes and job descriptions
+                <span>One place</span> to compare resumes and job descriptions
               </h2>
               <p className={styles.heroCopyParagraph}>
                 Start with a drag-and-drop upload area, add the job posting, and
