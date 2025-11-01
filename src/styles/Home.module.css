@@ -176,25 +176,66 @@
   color: #cbd5f5;
 }
 
+.targetForm {
+  margin-top: 1.5rem;
+  display: grid;
+  gap: 1rem;
+}
+
+@media (min-width: 640px) {
+  .targetForm {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  color: #e2e8f0;
+}
+
+.field input,
+.field textarea {
+  border-radius: 0.75rem;
+  border: 1px solid rgba(30, 41, 59, 0.7);
+  background-color: rgba(2, 6, 23, 0.6);
+  color: #f8fafc;
+  padding: 0.75rem 1rem;
+  font-size: 0.95rem;
+  transition: border-color 150ms ease, box-shadow 150ms ease;
+  resize: vertical;
+}
+
+.field input:focus,
+.field textarea:focus {
+  outline: none;
+  border-color: rgba(139, 92, 246, 0.6);
+  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.15);
+}
+
+.fullWidth {
+  grid-column: 1 / -1;
+}
+
+.formError {
+  margin-top: 0.75rem;
+  font-size: 0.9rem;
+  color: #fca5a5;
+}
+
 .heroCards {
   display: flex;
   flex-direction: column;
   gap: 1rem;
 }
 
-.dropArea {
-  border-radius: 1rem;
-  border: 1px dashed rgba(139, 92, 246, 0.4);
-  background-color: rgba(15, 23, 42, 0.7);
-  padding: 1.5rem;
-  text-align: center;
-  font-size: 0.95rem;
-  color: #cbd5f5;
-}
-
-.dropArea strong {
-  color: #c4b5fd;
-  font-weight: 600;
+.uploaderWrapper {
+  border-radius: 1.25rem;
+  border: 1px solid rgba(30, 41, 59, 0.9);
+  background-color: rgba(15, 23, 42, 0.8);
+  padding: 1.25rem;
 }
 
 .jobCard {
@@ -223,6 +264,22 @@
 .jobCardHighlight {
   color: #c4b5fd;
   font-weight: 600;
+}
+
+.jobCardSummary {
+  margin-top: 0.75rem;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: #cbd5f5;
+}
+
+.jobCardSuggestions {
+  margin-top: 0.75rem;
+  padding-left: 1.1rem;
+  list-style: disc;
+  color: #e2e8f0;
+  font-size: 0.9rem;
+  line-height: 1.6;
 }
 
 .featuresSection {

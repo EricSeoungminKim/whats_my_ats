@@ -1,28 +1,49 @@
-import { featureHighlights, upcoming, workflow } from "@/database/hardcode";
+"use client";
+
+import { useMemo, useState } from "react";
+
+import { ResumeUploader, AnalysisResponse } from "@/components/ResumeUploader";
+import { featureHighlights, upcoming, workflow } from "@/database/landing";
 import styles from "@/styles/Home.module.css";
 
 export default function Home() {
+  const [company, setCompany] = useState("");
+  const [role, setRole] = useState("");
+  const [jobDescription, setJobDescription] = useState("");
+  const [analysis, setAnalysis] = useState<AnalysisResponse | null>(null);
+  const [formError, setFormError] = useState<string | null>(null);
+
+  const scoreLabel = useMemo(() => {
+    if (!analysis) {
+      return "--";
+    }
+    return `${analysis.score}/100`;
+  }, [analysis]);
+
   return (
     <div className={styles.page}>
       <div className={styles.backgroundGlow} />
       <header className={styles.header}>
         <div className={`${styles.container} ${styles.headerStack}`}>
-          <span className={styles.badge}>Personal build in progress</span>
+          <span className={styles.badge}>Mock Test your ATS score</span>
           <h1 className={styles.heroTitle}>
+            Welcome to <br />
             What&apos;s My ATS? <br />
-            helps your resume speak the same language as every company
+            <br />
+            Test your resume speak the same language as every company&apos;s
+            hiring stack
           </h1>
           <p className={styles.heroParagraph}>
             Upload your resume, point to a target job, and get laser-focused ATS
             insights, rewrite suggestions, and project ideas that keep you ahead
-            of automated screens.
+            of automated screens
           </p>
-          <div className={styles.heroActions}>
+          {/* <div className={styles.heroActions}>
             <button className={styles.primaryButton}>
               Try sample scoring flow
             </button>
             <button className={styles.secondaryButton}>View roadmap</button>
-          </div>
+          </div> */}
           <div className={styles.heroGrid}>
             <div className={styles.heroCopy}>
               <p className={styles.sectionHeading}>Upload preview</p>
@@ -34,19 +55,72 @@ export default function Home() {
                 keep every iteration in a version timeline so you can compare
                 scores.
               </p>
+              <form
+                className={styles.targetForm}
+                onSubmit={(event) => {
+                  event.preventDefault();
+                  setFormError(null);
+                }}
+              >
+                <label className={styles.field}>
+                  <span>Target company</span>
+                  <input
+                    value={company}
+                    onChange={(event) => setCompany(event.target.value)}
+                    placeholder="e.g., Google"
+                  />
+                </label>
+                <label className={styles.field}>
+                  <span>Role</span>
+                  <input
+                    value={role}
+                    onChange={(event) => setRole(event.target.value)}
+                    placeholder="e.g., SWE Intern"
+                  />
+                </label>
+                <label className={`${styles.field} ${styles.fullWidth}`}>
+                  <span>Optional job description</span>
+                  <textarea
+                    value={jobDescription}
+                    onChange={(event) => setJobDescription(event.target.value)}
+                    placeholder="Paste keywords or a short job summary to boost accuracy (e.g., SWE Intern at Google focusing on backend services)."
+                  />
+                </label>
+              </form>
+              {formError && <p className={styles.formError}>{formError}</p>}
             </div>
             <div className={styles.heroCards}>
-              <div className={styles.dropArea}>
-                Drop resume here or <strong>browse files</strong>
+              <div className={styles.uploaderWrapper}>
+                <ResumeUploader
+                  company={company}
+                  role={role}
+                  jobDescription={jobDescription}
+                  disabled={!company.trim() || !role.trim()}
+                  onAnalysisComplete={(result) => {
+                    setAnalysis(result);
+                    setFormError(null);
+                  }}
+                  onError={(message) => setFormError(message)}
+                />
               </div>
               <div className={styles.jobCard}>
                 <p className={styles.jobCardLabel}>Target job snapshot</p>
                 <div className={styles.jobCardContent}>
-                  <p>Company: Google</p>
-                  <p>Role: Senior Data Analyst</p>
+                  <p>Company: {company || "Add a company"}</p>
+                  <p>Role: {role || "Select a role"}</p>
                   <p className={styles.jobCardHighlight}>
-                    Matching keywords: 63%
+                    Matching keywords: {scoreLabel}
                   </p>
+                  {analysis?.summary && (
+                    <p className={styles.jobCardSummary}>{analysis.summary}</p>
+                  )}
+                  {analysis?.suggestions?.length ? (
+                    <ul className={styles.jobCardSuggestions}>
+                      {analysis.suggestions.slice(0, 3).map((tip) => (
+                        <li key={tip}>{tip}</li>
+                      ))}
+                    </ul>
+                  ) : null}
                 </div>
               </div>
             </div>
@@ -117,10 +191,9 @@ export default function Home() {
                 <div>
                   <p className={styles.sectionHeading}>Tech stack</p>
                   <p className={styles.techParagraph}>
-                    Next.js 14 + App Router, Tailwind CSS, TypeScript, shadcn/ui
-                    inspired components, and a FastAPI scoring service with
-                    spaCy, sentence-transformers, and OpenAI for rewrite
-                    suggestions.
+                    Next.js 14 + App Router, Tailwind CSS, TypeScript, and a
+                    FastAPI scoring service backed by Gemini for resume
+                    insights.
                   </p>
                 </div>
                 <div className={styles.techHighlight}>
@@ -137,12 +210,17 @@ export default function Home() {
       <footer className={styles.footer}>
         <div className={styles.footerInner}>
           <p>
-            © {new Date().getFullYear()} What&apos;s My ATS? Crafted for
-            personal growth.
+            © {new Date().getFullYear()} What&apos;s My ATS? — Built by
+            Seoungmin Kim
           </p>
           <div className={styles.footerLinks}>
-            <a href="#">Changelog</a>
-            <a href="#">Privacy</a>
+            <a
+              href="https://github.com/EricSeoungminKim/whats_my_ats"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              What&apos;s My ATS GitHub
+            </a>
           </div>
         </div>
       </footer>
