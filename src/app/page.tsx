@@ -3,7 +3,7 @@
 import { useMemo, useState } from "react";
 
 import { ResumeUploader, AnalysisResponse } from "@/components/ResumeUploader";
-import { featureHighlights, upcoming, workflow } from "@/database/landing";
+import { featureHighlights, workflow } from "@/database/landing";
 import styles from "@/styles/Home.module.css";
 
 export default function Home() {
@@ -172,35 +172,20 @@ export default function Home() {
         <section className={styles.roadmapSection}>
           <div className={styles.container}>
             <div className={styles.roadmapGrid}>
-              <div className={styles.roadmapCard}>
-                <h2 className={styles.sectionTitle}>Road to a private beta</h2>
-                <p className={styles.sectionParagraph}>
-                  While the scoring engine comes together, the UI is ready to
-                  host experiments. Here&apos;s what is queuing up next.
-                </p>
-                <ul className={styles.roadmapList}>
-                  {upcoming.map((item) => (
-                    <li key={item.title}>
-                      <h3 className={styles.roadmapItemTitle}>{item.title}</h3>
-                      <p className={styles.roadmapItemDetail}>{item.detail}</p>
-                    </li>
-                  ))}
-                </ul>
-              </div>
               <div className={styles.techCard}>
                 <div>
                   <p className={styles.sectionHeading}>Tech stack</p>
                   <p className={styles.techParagraph}>
-                    Next.js 14 + App Router, Tailwind CSS, TypeScript, and a
-                    FastAPI scoring service backed by Gemini for resume
-                    insights.
+                    Next.js 16 + App Router, Tailwind CSS, TypeScript, and a
+                    FastAPI scoring service backed by Gemini for resume insights
                   </p>
                 </div>
-                <div className={styles.techHighlight}>
-                  Built as a personal playground to learn and ship quickly. The
-                  UI stays lightweight while the scoring brain evolves behind a
-                  clean API boundary.
-                </div>
+                {/* <div className={styles.techHighlight}>
+                  - Built as a personal playground to learn and ship quickly{" "}
+                  <br />
+                  <br />- The UI stays lightweight while the scoring brain
+                  evolves behind a clean API boundary
+                </div> */}
               </div>
             </div>
           </div>
